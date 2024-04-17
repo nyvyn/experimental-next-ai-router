@@ -1,11 +1,5 @@
-import styles from "./page.module.css";
+import AIRouterChat from "@/components/AIRouterChat";
 
-export default function AdventureRouter({params}: { params: { agent: string } }) {
-    return (
-        <>
-            <div className={styles.description}>
-                Agent: {params.agent}
-            </div>
-        </>
-    );
+export default async function AdventureRouter({params}: { params: { agent: string } }) {
+    return <AIRouterChat/>;
 }

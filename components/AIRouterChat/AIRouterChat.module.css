@@ -1,0 +1,38 @@
+.chatpanel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 28rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: stretch;
+}
+
+.chatbox {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-width: 28rem;
+}
+
+.chatinput {
+    width: 100%;
+    min-height: 2rem;
+    padding: .5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #d1d5db;
+    border-radius: .25rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.interactivemessage {
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+}
+
+.interactivemessage:last-child {
+    margin-bottom: 0;
+}
