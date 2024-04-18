@@ -17,7 +17,7 @@ export const AI = createAI({
     initialUIState: [],
 } as {
     actions: {
-        routeAI: (message: string) => Promise<InteractiveMessage>;
+        routeAI: (message?: string) => Promise<InteractiveMessage>;
     },
     initialAIState: InteractiveMessage[],
     initialUIState: InteractiveMessage[],

@@ -2,14 +2,35 @@
 
 import { AI } from "@/app/adventure/createAI";
 import { useActions, useUIState } from "ai/rsc";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, EffectCallback, FormEvent, useEffect, useRef, useState } from "react";
 
 import styles from "./AIRouterChat.module.css";
+
+// Source: https://taig.medium.com/prevent-react-from-triggering-useeffect-twice-307a475714d7
+function useOnMountUnsafe(effect: EffectCallback) {
+    const initialized = useRef(false);
+
+    useEffect(() => {
+        if (!initialized.current) {
+            initialized.current = true;
+            effect();
+        }
+    }, []);
+}
 
 export default function Chat() {
     const [inputValue, setInputValue] = useState("");
     const [messages, setMessages] = useUIState<typeof AI>();
     const {routeAI} = useActions<typeof AI>();
+
+    useOnMountUnsafe(() => {
+        routeAI().then(responseMessage => {
+            setMessages((currentMessages) => [
+                ...currentMessages,
+                responseMessage,
+            ]);
+        });
+    });
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -25,7 +46,7 @@ export default function Chat() {
             ...currentMessages,
             {
                 id: Date.now(),
-                display: <p>{inputValue}</p>,
+                display: <p>You: {inputValue}</p>,
             },
         ]);
 
@@ -42,7 +63,7 @@ export default function Chat() {
     return (
         <div className={styles.chatpanel}>
             <div className={styles.messages}>
-                {messages.map((message) => (
+                {messages.slice(messages.length - 2).map((message) => (
                     <div key={message.id} className={styles.interactivemessage}>
                         {message.display}
                     </div>

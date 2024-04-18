@@ -4,6 +4,7 @@
     flex-direction: column;
     width: 100%;
     max-width: 28rem;
+    min-height: 25rem;
     padding-top: 6rem;
     padding-bottom: 6rem;
     margin-left: auto;
@@ -35,4 +36,11 @@
 
 .interactivemessage:last-child {
     margin-bottom: 0;
+}
+
+.messages {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: end;
 }

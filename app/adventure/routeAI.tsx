@@ -1,16 +1,17 @@
 "use server";
 
 import { InteractiveMessage } from "@/app/adventure/createAI";
-import { HumanMessage } from "@langchain/core/messages";
+import { BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { MemorySaver } from "@langchain/langgraph";
 import { ChatOpenAI } from "@langchain/openai";
 import { createStreamableUI, getMutableAIState } from "ai/rsc";
 import { GraphRunner } from "autonomais";
 import { promises as fs } from "fs";
+import { redirect } from "next/navigation";
 
 const aiRouterStateKey = "airouterState";
 
-export async function routeAI(message: string): Promise<InteractiveMessage> {
+export async function routeAI(prompt?: string): Promise<InteractiveMessage> {
     if (!Boolean(process.env.OPENAI_API_KEY)) {
         throw new Error("OPENAI_API_KEY environment variable is required.");
     }
@@ -30,15 +31,25 @@ export async function routeAI(message: string): Promise<InteractiveMessage> {
         const path = await fs.readFile(process.cwd() + "/app/adventure/workflow.yaml", "utf8");
         const runner: GraphRunner = await GraphRunner.fromWorkflow({checkpoint, model, path});
 
+        const messages: BaseMessage[] = [];
+        if (prompt) messages.push(
+            new HumanMessage({content: prompt})
+        );
+
         const completion = await runner.invoke({
-            messages: [
-                new HumanMessage({content: message})
-            ],
+            messages,
+        }, {
+            configurable: {
+                threadId: aiRouterStateKey
+            }
         });
 
-        const lastNode = checkpoint.storage.undefined.channelValues.lastNode;
+        const lastNode = checkpoint.storage[aiRouterStateKey].channelValues.lastNode;
+
         aiState.done({lastNode, key: aiRouterStateKey});
         uiStream.done(<p>{completion}</p>);
+
+        redirect("/app/adventure/" + lastNode);
     })().then();
 
     return {
