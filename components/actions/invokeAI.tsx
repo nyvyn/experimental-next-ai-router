@@ -7,6 +7,7 @@ import { ChatOpenAI } from "@langchain/openai";
 import { createStreamableUI, getMutableAIState } from "ai/rsc";
 import { GraphRunner } from "autonomais";
 import { promises as fs } from "node:fs";
+import path from "node:path";
 
 const aiRouterStateKey = "airouterState";
 
@@ -35,7 +36,7 @@ export async function invokeAI(workflowPath: string, content?: string): Promise<
         const checkpoint = new MemorySaver();
 
         // Find the workflow file in this same directory
-        const config = await fs.readFile(process.cwd() + "/" + workflowPath, "utf8");
+        const config = await fs.readFile(path.join(process.cwd(), workflowPath), "utf8");
         const runner: GraphRunner = await GraphRunner.fromWorkflow({checkpoint, config, model});
 
         const messages: BaseMessage[] = [];
