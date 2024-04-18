@@ -14,7 +14,7 @@
     "@langchain/langgraph": "0.0.12",
     "@langchain/openai": "^0.0.28",
     "ai": "^3.0.23",
-    "autonomais": "^1.6.2",
+    "autonomais": "^1.6.3",
     "next": "14.2.1",
     "react": "^18",
     "react-dom": "^18"

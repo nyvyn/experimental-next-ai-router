@@ -1,4 +1,4 @@
-import { AI } from "@/app/adventure/createAI";
+import { AI } from "@/components/actions/createAI";
 import Link from "next/link";
 import { ReactNode } from "react";
 import styles from "./layout.module.css";

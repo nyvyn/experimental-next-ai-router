@@ -9,7 +9,7 @@ export default function Home() {
             </div>
 
             <div className={styles.center}>
-                <h2><Link href="/adventure/begin">Click here to start demo</Link></h2>
+                <h2><Link href="/adventure/">Click here to start demo</Link></h2>
             </div>
 
             <div className={styles.grid}>

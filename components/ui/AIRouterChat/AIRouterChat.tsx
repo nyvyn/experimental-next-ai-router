@@ -1,6 +1,6 @@
 "use client";
 
-import { AI } from "@/app/adventure/createAI";
+import { AI } from "@/components/actions/createAI";
 import { useActions, useUIState } from "ai/rsc";
 import { ChangeEvent, EffectCallback, FormEvent, useEffect, useRef, useState } from "react";
 
@@ -18,13 +18,14 @@ function useOnMountUnsafe(effect: EffectCallback) {
     }, []);
 }
 
-export default function Chat() {
+export default function Chat({workflowPath}: { workflowPath: string }) {
+
     const [inputValue, setInputValue] = useState("");
     const [messages, setMessages] = useUIState<typeof AI>();
-    const {routeAI} = useActions<typeof AI>();
+    const {invokeAI} = useActions<typeof AI>();
 
     useOnMountUnsafe(() => {
-        routeAI().then(responseMessage => {
+        invokeAI(workflowPath).then(responseMessage => {
             setMessages((currentMessages) => [
                 ...currentMessages,
                 responseMessage,
@@ -50,7 +51,7 @@ export default function Chat() {
             },
         ]);
 
-        const responseMessage = await routeAI(inputValue);
+        const responseMessage = await invokeAI(workflowPath, inputValue);
 
         setMessages((currentMessages) => [
             ...currentMessages,
