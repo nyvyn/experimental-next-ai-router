@@ -10,12 +10,12 @@
     "update scripts": "npx npm-check-updates -u"
   },
   "dependencies": {
-    "@langchain/core": "^0.1.58",
-    "@langchain/langgraph": "0.0.12",
-    "@langchain/openai": "^0.0.28",
-    "ai": "^3.0.23",
-    "autonomais": "^1.6.3",
-    "next": "14.2.1",
+    "@langchain/core": "^0.2.7",
+    "@langchain/langgraph": "0.0.23",
+    "@langchain/openai": "^0.1.3",
+    "ai": "^3.2.0",
+    "autonomais": "^2.0.2",
+    "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -24,6 +24,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.1"
+    "eslint-config-next": "14.2.4"
   }
 }

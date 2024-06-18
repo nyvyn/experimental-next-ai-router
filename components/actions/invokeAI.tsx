@@ -50,11 +50,15 @@ export async function invokeAI(workflowPath: string, content?: string): Promise<
             messages,
         }, {
             configurable: {
-                threadId: aiRouterStateKey
+                thread_id: aiRouterStateKey
             }
         });
 
-        const lastNode = checkpoint.storage[aiRouterStateKey].channelValues.lastNode;
+        const state = checkpoint.storage[aiRouterStateKey];
+        const keys = Object.keys(state);
+        const lastKey = state[keys[keys.length - 1]];
+        const result = JSON.parse(lastKey[1]);
+        const lastNode = result.writes[Object.keys(result.writes)[0]].lastNode;
 
         // Save the updated last node and append the AI message to the list of state messages.
         aiState.done({
